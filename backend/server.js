@@ -14,12 +14,17 @@ const http = require('http');
 const cors = require('cors');
 const { Server } = require('socket.io');
 
+// ─── Allowed origins (comma-separated in .env, or sensible defaults) ────────
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : ['http://localhost:5173', 'http://localhost:3000'];
+
 // ─── 2. EXPRESS + HTTP SERVER ────────────────────────────────────────────────
 const app = express();
 const server = http.createServer(app);
 
 app.use(cors({
-  origin: '*',
+  origin: ALLOWED_ORIGINS,
   methods: ['GET', 'POST'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -30,7 +35,7 @@ app.use(express.json());
 // ─── 3. SOCKET.IO SERVER ────────────────────────────────────────────────────
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: ALLOWED_ORIGINS,
     methods: ['GET', 'POST'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
