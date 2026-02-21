@@ -37,7 +37,7 @@ export function clearStoredUsername(): void {
 
 // ── Socket singleton with auto-reconnection ──────────────────────────────────
 export const socket: Socket = io(BACKEND_URL, {
-    autoConnect: false,
+    autoConnect: true,
     transports: ['websocket', 'polling'],
     withCredentials: true,
     // Reconnection settings for live events
